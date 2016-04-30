@@ -48,6 +48,7 @@
   (let [src (boot/tmp-dir!)
         tmp (boot/tmp-dir!)
         prev (atom nil)]
+    (assert-deps)
     (comp
      (repl
       :port 8230
