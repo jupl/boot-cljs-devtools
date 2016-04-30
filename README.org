@@ -1,0 +1,24 @@
+* boot-cljs-devtools
+** About
+[[boot-clj/boot][Boot]] task introducing enhancements to CLJS development in Chrome, specifically [[binaryage/cljs-devtools][CLJS DevTools]] and [[binaryage/dirac][Dirac]].
+** Installation
+Add the following to your =build.boot= dependencies.
+#+BEGIN_SRC clojure
+[binaryage/devtools      "0.6.1" :scope "test"]
+[binaryage/dirac         "0.2.0" :scope "test"]
+[jupl/boot-cljs-devtools "0.1.0" :scope "test"]
+#+END_SRC
+In addition require the task, specifically =cljs-devtools=.
+#+BEGIN_SRC clojure
+(require '[jupl.boot-cljs-devtools :refer [cljs-devtools])
+#+END_SRC
+** Usage
+Ensure that this task runs before the =cljs= and after the =watch= task. Example:
+#+BEGIN_SRC clojure
+(deftask dev[]
+  (comp (watch) (cljs-devtools) (cljs)))
+#+END_SRC
+For more information on the tools please visit [[binaryage/cljs-devtools][CLJS DevTools]] and [[binaryage/dirac][Dirac]].
+** Credits
+- @binaryage :: for [[binaryage/cljs-devtools][CLJS DevTools]] and [[binaryage/dirac][Dirac]]
+- @adzerk-oss :: for [[adzerk-oss/boot-cljs-repl][boot-cljs-repl]] (reference/foundation for this project)
