@@ -6,8 +6,8 @@
             [clojure.java.io    :as    io]))
 
 (def ^:private deps
-  '[[binaryage/devtools          "0.6.1"     :scope "test"]
-    [binaryage/dirac             "0.2.0"     :scope "test"]])
+  '[[binaryage/devtools "0.6.1" :scope "test"]
+    [binaryage/dirac    "0.2.0" :scope "test"]])
 
 (defn- add-init! [in-file out-file]
   (let [ns ['devtools.core 'dirac.runtime]
