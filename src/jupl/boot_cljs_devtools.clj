@@ -3,7 +3,8 @@
   (:require [boot.core          :as    boot]
             [boot.task.built-in :refer [repl]]
             [boot.util          :as    util]
-            [clojure.java.io    :as    io]))
+            [clojure.java.io    :as    io]
+            [clojure.string     :as    str]))
 
 (def ^:private deps
   '[[binaryage/devtools "0.6.1" :scope "test"]
@@ -26,8 +27,8 @@
 
 (defn- assert-deps []
   (let [current (->> (boot/get-env :dependencies)
-                      (map first)
-                      set)
+                     (map first)
+                     set)
         missing (remove (comp current first) deps)]
     (if (seq missing)
       (util/warn (str "You are missing necessary dependencies for boot-cljs-repl.\n"
@@ -43,7 +44,13 @@
         boot/input-files
         f)))
 
-(deftask cljs-devtools
+(defn- start-dirac []
+  (require 'dirac.agent)
+  ((resolve 'dirac.agent/boot!)))
+
+(def start-dirac-once (memoize start-dirac))
+
+(boot/deftask cljs-devtools
   [b ids BUILD_IDS #{str} "Only inject devtools into these builds (= .cljs.edn files)"]
   (let [src (boot/tmp-dir!)
         tmp (boot/tmp-dir!)
@@ -55,8 +62,7 @@
       :server true
       :middleware ['dirac.nrepl.middleware/dirac-repl])
      (boot/with-pre-wrap fileset
-       (require 'dirac.agent)
-       (dirac.agent/boot!)
+       (start-dirac-once)
        (doseq [f (relevant-cljs-edn @prev fileset ids)]
          (let [path (boot/tmp-path f)
                in-file (boot/tmp-file f)
@@ -66,4 +72,4 @@
        (reset! prev fileset)
        (-> fileset
            (boot/add-resource tmp)
-           (commit!))))))
+           (boot/commit!))))))
