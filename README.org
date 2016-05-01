@@ -12,10 +12,11 @@ In addition require the task, specifically =cljs-devtools=.
 #+BEGIN_SRC clojure
 (require '[jupl.boot-cljs-devtools :refer [cljs-devtools])
 #+END_SRC
+Currently files may be generated in the =out= directory, so it would be advisable to add that to someplace like in a =.gitignore=.
 ** Usage
 Ensure that this task runs before the =cljs= and after the =watch= task. Example:
 #+BEGIN_SRC clojure
-(deftask dev[]
+(deftask dev []
   (comp (watch) (cljs-devtools) (cljs)))
 #+END_SRC
 For more information on the tools please visit [[binaryage/cljs-devtools][CLJS DevTools]] and [[binaryage/dirac][Dirac]].

@@ -52,8 +52,7 @@
 
 (boot/deftask cljs-devtools
   [b ids BUILD_IDS #{str} "Only inject devtools into these builds (= .cljs.edn files)"]
-  (let [src (boot/tmp-dir!)
-        tmp (boot/tmp-dir!)
+  (let [tmp (boot/tmp-dir!)
         prev (atom nil)]
     (assert-deps)
     (comp
