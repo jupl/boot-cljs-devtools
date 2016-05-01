@@ -51,15 +51,15 @@
 (def start-dirac-once (memoize start-dirac))
 
 (boot/deftask cljs-devtools
+  "Add Chrome Devtool enhancements for ClojureScript development."
   [b ids BUILD_IDS #{str} "Only inject devtools into these builds (= .cljs.edn files)"]
   (let [tmp (boot/tmp-dir!)
         prev (atom nil)]
     (assert-deps)
     (comp
-     (repl
-      :port 8230
-      :server true
-      :middleware ['dirac.nrepl.middleware/dirac-repl])
+     (repl :port 8230
+           :server true
+           :middleware ['dirac.nrepl.middleware/dirac-repl])
      (boot/with-pre-wrap fileset
        (start-dirac-once)
        (doseq [f (relevant-cljs-edn @prev fileset ids)]
