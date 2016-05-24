@@ -4,7 +4,8 @@
             [boot.task.built-in :refer [repl]]
             [boot.util          :as    util]
             [clojure.java.io    :as    io]
-            [clojure.string     :as    str]))
+            [clojure.string     :as    str]
+            [dirac.agent.config :as    dirac-conf]))
 
 (def ^:private deps
   '[[binaryage/devtools "0.6.1" :scope "test"]
@@ -44,27 +45,36 @@
         boot/input-files
         f)))
 
-(defn- start-dirac []
+(defn- start-dirac! [config]
+  (boot.util/dbug "Starting Dirac...\n")
   (require 'dirac.agent)
-  ((resolve 'dirac.agent/boot!)))
+  ((resolve 'dirac.agent/boot!) config))
 
-(def start-dirac-once (memoize start-dirac))
+(def nrepl-defaults
+  {:port 8230
+   :server true
+   :middleware ['dirac.nrepl.middleware/dirac-repl]})
 
 (boot/deftask cljs-devtools
   "Add Chrome Devtool enhancements for ClojureScript development."
   [b ids        BUILD_IDS  #{str} "Only inject devtools into these builds (= .cljs.edn files)"
-   n nrepl-opts NREPL_OPTS edn     "Options passed to the `repl` task."]
+   n nrepl-opts NREPL_OPTS edn     "Options passed to boot's `repl` task."
+   d dirac-opts DIRAC_OPTS edn     "Options passed to dirac."]
   (let [tmp (boot/tmp-dir!)
         prev (atom nil)
-        nrepl-opts (merge {:port 8230
-                           :server true
-                           :middleware ['dirac.nrepl.middleware/dirac-repl]}
-                          nrepl-opts)]
+        nrepl-opts (cond-> (merge nrepl-defaults nrepl-opts)
+                     dirac-opts (assoc :port (get-in dirac-opts [:nrepl-server :port])))
+        dirac-opts (cond-> (or dirac-opts {})
+                     nrepl-opts (assoc-in [:nrepl-server :port] (:port nrepl-opts)))
+        start-dirac-once (delay (start-dirac! dirac-opts))]
     (assert-deps)
+    (assert (= (:port nrepl-opts) (get-in dirac-opts [:nrepl-server :port]))
+            (format "Nrepl's :port (%s) and Dirac's [:nrepl-server :port] (%s) are not the same."
+                    (:port nrepl-opts) (get-in dirac-opts [:nrepl-server :port])))
     (comp
      (apply repl (mapcat identity nrepl-opts))
      (boot/with-pre-wrap fileset
-       (start-dirac-once)
+       @start-dirac-once
        (doseq [f (relevant-cljs-edn @prev fileset ids)]
          (let [path (boot/tmp-path f)
                in-file (boot/tmp-file f)
@@ -75,3 +85,7 @@
        (-> fileset
            (boot/add-resource tmp)
            (boot/commit!))))))
+
+(comment
+  (require '[jupl.boot-cljs-devtools :as dvt])
+  (boot (dvt/cljs-devtools)))
