@@ -4,8 +4,8 @@
 ** Installation
 Add the following to your =build.boot= dependencies.
 #+BEGIN_SRC clojure
-[binaryage/devtools      "0.6.1" :scope "test"]
-[binaryage/dirac         "0.2.0" :scope "test"]
+[binaryage/devtools      "0.7.0" :scope "test"]
+[binaryage/dirac         "0.6.0" :scope "test"]
 [jupl/boot-cljs-devtools "0.1.0" :scope "test"]
 #+END_SRC
 In addition require the task, specifically =cljs-devtools=.
