@@ -19,6 +19,16 @@ Ensure that this task runs before the =cljs= and after the =watch= task. Example
 (deftask dev []
   (comp (watch) (cljs-devtools) (cljs)))
 #+END_SRC
+
+And don't forget to include runtime support for =dirac= and =cljs-devtools=:
+#+BEGIN_SRC clojure
+(ns your-project.namespace
+  (:require [dirac.runtime devtools.core]))
+
+(dirac.runtime/install!)
+(devtools.core/install!)
+#+END_SRC
+
 For more information on the tools please visit [[https://github.com/binaryage/cljs-devtools][CLJS DevTools]] and [[https://github.com/binaryage/dirac][Dirac]].
 ** Credits
 - [[https://github.com/binaryage][binaryage]] :: for [[https://github.com/binaryage/cljs-devtools][CLJS DevTools]] and [[https://github.com/binaryage/dirac][Dirac]]
