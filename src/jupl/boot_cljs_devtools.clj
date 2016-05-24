@@ -52,14 +52,17 @@
 
 (boot/deftask cljs-devtools
   "Add Chrome Devtool enhancements for ClojureScript development."
-  [b ids BUILD_IDS #{str} "Only inject devtools into these builds (= .cljs.edn files)"]
+  [b ids        BUILD_IDS  #{str} "Only inject devtools into these builds (= .cljs.edn files)"
+   n nrepl-opts NREPL_OPTS edn     "Options passed to the `repl` task."]
   (let [tmp (boot/tmp-dir!)
-        prev (atom nil)]
+        prev (atom nil)
+        nrepl-opts (merge {:port 8230
+                           :server true
+                           :middleware ['dirac.nrepl.middleware/dirac-repl]}
+                          nrepl-opts)]
     (assert-deps)
     (comp
-     (repl :port 8230
-           :server true
-           :middleware ['dirac.nrepl.middleware/dirac-repl])
+     (apply repl (mapcat identity nrepl-opts))
      (boot/with-pre-wrap fileset
        (start-dirac-once)
        (doseq [f (relevant-cljs-edn @prev fileset ids)]
