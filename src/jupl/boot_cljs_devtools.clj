@@ -21,7 +21,7 @@
       (io/make-parents out-file)
       (-> spec
           (update-in [:require] into ns)
-          (update-in [:init-fns] into init)
+          (update-in [:init-fns] #(into init %))
           pr-str
           ((partial spit out-file))))))
 
