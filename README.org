@@ -23,3 +23,4 @@ For more information on the tools please visit [[https://github.com/binaryage/cl
 ** Credits
 - [[https://github.com/binaryage][binaryage]] :: for [[https://github.com/binaryage/cljs-devtools][CLJS DevTools]] and [[https://github.com/binaryage/dirac][Dirac]]
 - [[https://github.com/adzerk-oss][adzerk-oss]] :: for [[https://github.com/adzerk-oss/boot-cljs-repl][boot-cljs-repl]] (reference/foundation for this project)
+- [[https://github.com/slotkenov][slotkenov]] :: for the original snippet that inspired this project
