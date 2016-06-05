@@ -14,10 +14,16 @@ In addition require the task, specifically =cljs-devtools=.
 #+END_SRC
 Currently files may be generated in the =out= directory, so it would be advisable to add that to someplace like in a =.gitignore=.
 ** Usage
-Ensure that this task runs before the =cljs= and after the =watch= task. Example:
+Ensure that this task runs before the =cljs= and after the =watch= task and that you include a =.cljs.edn= file according to [[https://github.com/adzerk-oss/boot-cljs/wiki/Usage#multiple-builds][this]].
+Task example:
 #+BEGIN_SRC clojure
 (deftask dev []
   (comp (watch) (cljs-devtools) (cljs)))
+#+END_SRC
+File =your-ns.cljs.edn= example:
+#+BEGIN_SRC clojure
+{:require  [your-ns.core]
+ :init-fns [your-ns.core/init]}
 #+END_SRC
 For more information on the tools please visit [[https://github.com/binaryage/cljs-devtools][CLJS DevTools]] and [[https://github.com/binaryage/dirac][Dirac]].
 ** Credits
