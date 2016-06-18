@@ -51,15 +51,19 @@
 (def start-dirac-once (memoize start-dirac))
 
 (boot/deftask cljs-devtools
-  "Add Chrome Devtool enhancements for ClojureScript development."
-  [b ids BUILD_IDS #{str} "Only inject devtools into these builds (= .cljs.edn files)"]
-  (let [tmp (boot/tmp-dir!)
-        prev (atom nil)]
+  "Add Chrome Devtool enhancements for ClojureScript development with dirac nrepl."
+  [b ids        BUILD_IDS  #{str} "Only inject devtools into these builds (= .cljs.edn files)"
+   n nrepl-opts NREPL_OPTS   edn  "Options passed to the `repl` task."]
+  (let [tmp  (boot/tmp-dir!)
+        prev (atom nil)
+        dirac-repl (partial repl :server true
+                            :port 8230
+                            :middleware ['dirac.nrepl.middleware/dirac-repl])]
     (assert-deps)
     (comp
-     (repl :port 8230
-           :server true
-           :middleware ['dirac.nrepl.middleware/dirac-repl])
+     (if nrepl-opts
+       (apply dirac-repl (mapcat identity nrepl-opts))
+       (dirac-repl))
      (boot/with-pre-wrap fileset
        (start-dirac-once)
        (doseq [f (relevant-cljs-edn @prev fileset ids)]
@@ -70,5 +74,5 @@
            (add-init! in-file out-file)))
        (reset! prev fileset)
        (-> fileset
-           (boot/add-resource tmp)
-           (boot/commit!))))))
+         (boot/add-resource tmp)
+         (boot/commit!))))))
