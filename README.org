@@ -2,11 +2,15 @@
 ** About
 [[https://github.com/boot-clj/boot][Boot]] task introducing enhancements to CLJS development in Chrome, specifically [[https://github.com/binaryage/cljs-devtools][CLJS DevTools]] and [[https://github.com/binaryage/dirac][Dirac]].
 ** Installation
-Add the following to your =build.boot= dependencies.
+Latest version:
+
+[[https://clojars.org/jupl/boot-cljs-devtools][https://img.shields.io/clojars/v/powerlaces/boot-cljs-devtools.svg]]
+
+In order to install it, add the following to your =build.boot= dependencies:
 #+BEGIN_SRC clojure
-[binaryage/devtools      "0.7.0" :scope "test"]
-[binaryage/dirac         "0.6.0" :scope "test"]
-[jupl/boot-cljs-devtools "0.1.0" :scope "test"]
+[binaryage/devtools      "0.7.2" :scope "test"]
+[binaryage/dirac         "0.6.2" :scope "test"]
+[jupl/boot-cljs-devtools "0.X.X" :scope "test"]
 #+END_SRC
 In addition require the task, specifically =cljs-devtools=.
 #+BEGIN_SRC clojure
@@ -27,6 +31,7 @@ File =your-ns.cljs.edn= example:
 #+END_SRC
 For more information on the tools please visit [[https://github.com/binaryage/cljs-devtools][CLJS DevTools]] and [[https://github.com/binaryage/dirac][Dirac]].
 ** Credits
+- [[https://github.com/jupl][jupl]] :: for his work, this library would not exist otherwise
 - [[https://github.com/binaryage][binaryage]] :: for [[https://github.com/binaryage/cljs-devtools][CLJS DevTools]] and [[https://github.com/binaryage/dirac][Dirac]]
 - [[https://github.com/adzerk-oss][adzerk-oss]] :: for [[https://github.com/adzerk-oss/boot-cljs-repl][boot-cljs-repl]] (reference/foundation for this project)
 - [[https://github.com/slotkenov][slotkenov]] :: for the original snippet that inspired this project

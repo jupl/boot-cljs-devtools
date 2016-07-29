@@ -1,4 +1,4 @@
-(ns jupl.boot-cljs-devtools
+(ns powerlaces.boot-cljs-devtools
   {:boot/export-tasks true}
   (:require [boot.core          :as    boot]
             [boot.task.built-in :refer [repl]]
