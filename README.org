@@ -1,32 +1,5 @@
 * boot-cljs-devtools
-** About
-[[https://github.com/boot-clj/boot][Boot]] task introducing enhancements to CLJS development in Chrome, specifically [[https://github.com/binaryage/cljs-devtools][CLJS DevTools]] and [[https://github.com/binaryage/dirac][Dirac]].
-** Installation
-Add the following to your =build.boot= dependencies.
-#+BEGIN_SRC clojure
-[binaryage/devtools      "0.7.0" :scope "test"]
-[binaryage/dirac         "0.6.0" :scope "test"]
-[jupl/boot-cljs-devtools "0.1.0" :scope "test"]
-#+END_SRC
-In addition require the task, specifically =cljs-devtools=.
-#+BEGIN_SRC clojure
-(require '[jupl.boot-cljs-devtools :refer [cljs-devtools])
-#+END_SRC
-Currently files may be generated in the =out= directory, so it would be advisable to add that to someplace like in a =.gitignore=.
-** Usage
-Ensure that this task runs before the =cljs= and after the =watch= task and that you include a =.cljs.edn= file according to [[https://github.com/adzerk-oss/boot-cljs/wiki/Usage#multiple-builds][this]].
-Task example:
-#+BEGIN_SRC clojure
-(deftask dev []
-  (comp (watch) (cljs-devtools) (cljs)))
-#+END_SRC
-File =your-ns.cljs.edn= example:
-#+BEGIN_SRC clojure
-{:require  [your-ns.core]
- :init-fns [your-ns.core/init]}
-#+END_SRC
-For more information on the tools please visit [[https://github.com/binaryage/cljs-devtools][CLJS DevTools]] and [[https://github.com/binaryage/dirac][Dirac]].
-** Credits
-- [[https://github.com/binaryage][binaryage]] :: for [[https://github.com/binaryage/cljs-devtools][CLJS DevTools]] and [[https://github.com/binaryage/dirac][Dirac]]
-- [[https://github.com/adzerk-oss][adzerk-oss]] :: for [[https://github.com/adzerk-oss/boot-cljs-repl][boot-cljs-repl]] (reference/foundation for this project)
-- [[https://github.com/slotkenov][slotkenov]] :: for the original snippet that inspired this project
+** Moving time!
+This repository moved to a new repo.
+
+Check the new [[https://github.com/boot-clj/boot-cljs-devtools]][powerlaces/boot-cljs-devtools]].
