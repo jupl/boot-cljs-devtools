@@ -8,21 +8,21 @@
             [dirac.agent.config :as    dirac-conf]))
 
 (def ^:private deps
-  '[[binaryage/devtools "0.7.0" :scope "test"]
-    [binaryage/dirac    "0.6.0" :scope "test"]])
+  '[[binaryage/devtools "0.8.0" :scope "test"]
+    [binaryage/dirac    "0.6.3" :scope "test"]])
 
-(defn- add-init! [in-file out-file]
-  (let [ns ['devtools.core 'dirac.runtime]
-        init ['devtools.core/install! 'dirac.runtime/install!]
+(defn- add-preloads! [in-file out-file]
+  (let [ns ['devtools.preload 'jupl.boot-cljs-devtools.dirac.preload]
+        preloads ['devtools.preload 'jupl.boot-cljs-devtools.dirac.preload]
         spec (-> in-file slurp read-string)]
     (when (not= :nodejs (-> spec :compiler-options :target))
       (util/info
-       "Adding :require %s and :init-fns %s to %s...\n"
-       ns init (.getName in-file))
+       "Adding :require %s and :preloads %s to %s...\n"
+       ns preloads (.getName in-file))
       (io/make-parents out-file)
       (-> spec
           (update-in [:require] into ns)
-          (update-in [:init-fns] #(into init %))
+          (update-in [:preloads] #(into preloads %))
           pr-str
           ((partial spit out-file))))))
 
@@ -80,7 +80,7 @@
                in-file (boot/tmp-file f)
                out-file (io/file tmp path)]
            (io/make-parents out-file)
-           (add-init! in-file out-file)))
+           (add-preloads! in-file out-file)))
        (reset! prev fileset)
        (-> fileset
            (boot/add-resource tmp)
