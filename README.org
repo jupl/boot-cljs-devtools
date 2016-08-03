@@ -2,4 +2,4 @@
 ** Moving time!
 This repository moved to a new repo.
 
-Check the new [[https://github.com/boot-clj/boot-cljs-devtools]][powerlaces/boot-cljs-devtools]].
+Check the new [[https://github.com/boot-clj/boot-cljs-devtools][powerlaces/boot-cljs-devtools]].
